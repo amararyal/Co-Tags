@@ -52,7 +52,6 @@ def kafka_consumer_performance(LOOP_LENGTH, topic):
             # Neo4j Graph update loop using Bolt
             try:
                 batch_list, batch_msg_consumed = kafka_consume_batch(consumer, batch_size)
-		#df = pd.DataFrame(batch_list)
                 msg_consumed_count += batch_msg_consumed
 	        with session.begin_transaction() as tx:
                     update_query = '''WITH {batch_list} AS batch_list
