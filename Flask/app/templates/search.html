@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block emailop %}
+<div class="container">
+     <div class="starter-template">
+	<div> Search Results </div>
+       <div class="row" style="height:100vh;">
+               <div class="col-md-10 col-md-offset-1">
+                   <table class="table">
+			<style>
+			table, th, td, tr {
+    				border: 2px solid black;
+				font size ="10"
+				
+    				}
+			</style>
+                     <thead>
+                       <tr>
+                         <th>Hash</th>
+			 <th>Count</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       {% for val in output %}
+                       <tr>
+                         <td>{{val.hash2}}</td>
+			 <td>{{val.count}}</td>
+                       </tr>
+                       {% endfor %}
+                     </tbody>
+                   </table>
+               </div>
+       </div>
+     </div>
+   </div>
+{% endblock %}

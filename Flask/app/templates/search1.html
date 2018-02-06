@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block emailop %}
+
+<html>
+<head>
+
+ <link rel="stylesheet" href="http://www.highcharts.com/joomla/media/templates/highsoft_2015/css/bootstrap.min.css" type="text/css" />
+    <style type="text/css">
+        .navbar-default {
+             background-color: #2780E3;
+                 border-color: #2780E3;
+        }
+        .navbar-default .navbar-brand {
+            color: white;
+        }
+        .navbar-default .navbar-nav>li>a, .navbar-default .navbar-text {
+            color: #f9f6f6;
+        }
+        .custom-group{
+            background-color:#f1f3f4;
+        }
+        .form-part{
+            margin-top:35px;
+            margin-left:0px;
+        }
+        .image-group{
+                padding:30px;
+
+        }
+        .form-part-inside{
+            border-radius:4px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Home </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          
+          <ul class="nav navbar-nav navbar-right">
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+<div class="container" style="margin-top:35px;">
+     <div class="starter-template">
+	<div> Search Results </div>
+       <div class="row" style="height:100vh;">
+          <div class="col-sm-12">
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Hash</th>
+                      <th scope="col">Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                       {% for val in output %}
+                       <tr>
+                         <td>{{val.hash2}}</td>
+			 <td>{{val.count}}</td>
+                       </tr>
+                       {% endfor %}
+                     </tbody>
+                   </table>
+               </div>
+                  </tbody>
+                </table>
+          </div>
+	</div>
+
+
+
+       </div>
+     </div>
+   </div>
+</body>
+</html>
+{% endblock %}
+
