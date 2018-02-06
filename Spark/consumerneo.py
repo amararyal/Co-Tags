@@ -100,7 +100,7 @@ tweet_parsed = kafkaStream.map(lambda v: json.loads(v[1].decode('utf-8'))) \
 #tweet_parsed.pprint()
 count=tweet_parsed.count()
 count.pprint()
-#tweet_parsed.foreachRDD(counts)
+
 #batch_count topic for total number of tweets in a batch
 count.foreachRDD(lambda x: send_to_kafka(x.collect(),"batch_count"))
 tweet_tag_groups=tweet_parsed.map(lambda x: group(x))#.cache()
@@ -108,14 +108,13 @@ tweet_only_tags=tweet_tag_groups.filter(lambda x: x<> [] and x<> None)#.cache()
 hash_tags_as_flat_map=tweet_only_tags.flatMap(lambda x:x) \
 .map(lambda (x,y):re_order(x,y)) \
 .map(lambda (x,y): ((x,y),1))#.cache()
-#hash_tags_as_flat_map.pprint()
 
 aggregated_hashtags=hash_tags_as_flat_map.reduceByKey(lambda x,y:int(x)+int(y))#.cache()#.map(lambda (x,y):(y,x)).cache()
 
 #Sort the Aggregrated groups
 sorted_groups=aggregated_hashtags.transform \
 (lambda rdd:rdd.sortBy(lambda x: x[1],ascending= False))
-#sorted_groups.pprint()
+
 #To kafka
 producer = KafkaProducer(bootstrap_servers='ec2-34-235-173-226.compute-1.amazonaws.com')
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.collect(),"groups_count"))
