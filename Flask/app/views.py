@@ -12,7 +12,7 @@ cluster = Cluster([cassandra_masters])
 #Create Session
 session=cluster.connect()
 
-
+#Time Series Analysis
 @app.route('/_timeseries')
 def timeseries():
     """Retrieve time series for currKey"""
@@ -20,7 +20,6 @@ def timeseries():
     hashtags = []
     count = 0
     consumer = KafkaConsumer(group_id='my-group',bootstrap_servers ='ec2-34-224-210-199.compute-1.amazonaws.com',auto_offset_reset='latest')
-    #consumer = KafkaConsumer(bootstrap_servers ='ec2-34-224-210-199.compute-1.amazonaws.com',auto_offset_reset='latest')
     consumer.subscribe(['batch_count'])
     for msg in consumer:
         cumulative.append(int(msg[6].decode('utf-8')))
