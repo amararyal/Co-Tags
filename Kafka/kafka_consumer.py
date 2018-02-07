@@ -37,8 +37,8 @@ def kafka_consumer_performance(LOOP_LENGTH, topic):
     nodes = 0
     rels = 0
 
-    driver = GraphDatabase.driver("bolt://ec2-34-230-121-21.compute-1.amazonaws.com:7687",auth=basic_auth("neo4j", "123"),encrypted=False,trust=TRUST_ON_FIRST_USE)
-    consumer = KafkaConsumer(bootstrap_servers='ec2-34-224-210-199.compute-1.amazonaws.com',auto_offset_reset='latest')
+    driver = GraphDatabase.driver("bolt:Your Neo4j Node Public DNS:7687",auth=basic_auth("neo4j", "123"),encrypted=False,trust=TRUST_ON_FIRST_USE)
+    consumer = KafkaConsumer(bootstrap_servers='Your Kafka Public DNS',auto_offset_reset='latest')
     consumer_start = time.time()
 
     # Subscribe to topics
