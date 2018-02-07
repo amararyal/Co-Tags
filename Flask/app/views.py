@@ -5,7 +5,7 @@ from kafka import KafkaConsumer, KafkaClient
 from ast import literal_eval as make_tuple
 from cassandra.cluster import Cluster
 # Specify the Cassandra Master
-cassandra_masters = "ec2-34-195-160-149.compute-1.amazonaws.com"
+cassandra_masters = "Your Cassandra Node Public DNS"
 #Create Cassandra Cluster
 cluster = Cluster([cassandra_masters])
 
@@ -19,7 +19,7 @@ def timeseries():
     cumulative = []
     hashtags = []
     count = 0
-    consumer = KafkaConsumer(group_id='my-group',bootstrap_servers ='ec2-34-224-210-199.compute-1.amazonaws.com',auto_offset_reset='latest')
+    consumer = KafkaConsumer(group_id='my-group',bootstrap_servers ='Your Kafka Public DNS',auto_offset_reset='latest')
     consumer.subscribe(['batch_count'])
     for msg in consumer:
         cumulative.append(int(msg[6].decode('utf-8')))
