@@ -61,13 +61,13 @@ def re_order(x,y):
     
 
 # List all the Kafka Brokers
-brokers = "ec2-34-224-210-199.compute-1.amazonaws.com:9092,ec2-52-5-190-49.compute-1.amazonaws.com:9092,ec2-34-235-173-226.compute-1.amazonaws.com:9092"
+brokers = "Your Kafka Brokers Public DNS"
 
 # List the Topics
 topics = "twitter_stream"
 
 # Specify the Cassandra Master
-cassandra_master = "ec2-34-195-160-149.compute-1.amazonaws.com"
+cassandra_master = "Your Cassandra Public DNS"
 
 #Create Cassandra Cluster
 cluster = Cluster([cassandra_master])
@@ -116,7 +116,7 @@ sorted_groups=aggregated_hashtags.transform \
 (lambda rdd:rdd.sortBy(lambda x: x[1],ascending= False))
 
 #To kafka
-producer = KafkaProducer(bootstrap_servers='ec2-34-235-173-226.compute-1.amazonaws.com')
+producer = KafkaProducer(bootstrap_servers='Your Kafka Node Public DNS')
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.collect(),"groups_count"))
 #trending_tags_pair topic for sending trending tags only
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.take(5),"trending_tags_pair"))
