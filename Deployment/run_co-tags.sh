@@ -1,3 +1,4 @@
+#!/bin/bash
 
 #Run Kafka producer
 peg sshcmd-node kafka-cluster 1 "python /home/ubuntu/producer.py &" 
