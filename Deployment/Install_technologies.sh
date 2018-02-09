@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Install Hadoop and Spark
 CLUSTER_NAME=spark-cluster
 peg fetch ${CLUSTER_NAME}
