@@ -1,5 +1,7 @@
-/* This Code is responsible for reading and playing the static archived file to simulate streaming.
-Multiple processes are used to read the input file in Chunk */
+'''
+This Code is responsible for reading and playing the static archived file to simulate streaming.
+Multiple processes are used to read the input file in Chunk.
+'''
 
 # Import Statements
 from twitter import *
