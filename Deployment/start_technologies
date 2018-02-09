@@ -1,0 +1,13 @@
+# Start Hadoop and Spark
+CLUSTER_NAME=spark-cluster
+peg fetch ${CLUSTER_NAME}
+peg service ${CLUSTER_NAME} hadoop start
+wait
+peg install ${CLUSTER_NAME} spark start
+
+#Start Zookeeper and Kafka
+CLUSTER_NAME1=spark-cluster
+peg fetch ${CLUSTER_NAME1}
+peg service ${CLUSTER_NAME1} zookeeper start
+wait
+peg install ${CLUSTER_NAME1} kafka start
