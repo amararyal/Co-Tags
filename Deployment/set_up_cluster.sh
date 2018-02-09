@@ -9,3 +9,6 @@ peg up kafka.yml
 
 #Set Up Cassandra
 peg up cassandra.yml
+
+#Set Up Flask
+peg up flask.yml
