@@ -6,8 +6,14 @@ wait
 peg install ${CLUSTER_NAME} spark start
 
 #Start Zookeeper and Kafka
-CLUSTER_NAME1=spark-cluster
+CLUSTER_NAME1=kafka-cluster
 peg fetch ${CLUSTER_NAME1}
 peg service ${CLUSTER_NAME1} zookeeper start
 wait
 peg install ${CLUSTER_NAME1} kafka start
+
+#Start cassandra
+CLUSTER_NAME2=cassandra-cluster
+peg fetch ${CLUSTER_NAME2}
+peg service ${CLUSTER_NAME2} cassandra start
+
