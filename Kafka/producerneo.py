@@ -1,9 +1,14 @@
+/* This Code is responsible for reading and playing the static archived file to simulate streaming.
+Multiple processes are used to read the input file in Chunk */
+
+# Import Statements
 from twitter import *
 from kafka.producer import KafkaProducer
 import multiprocessing as mp,os,json
 import json
 import re
 from random import randint
+
 
 def process_wrapper(chunkStart, chunkSize):
      producer = KafkaProducer(bootstrap_servers='ec2-34-235-173-226.compute-1.amazonaws.com')
@@ -24,8 +29,7 @@ def process_wrapper(chunkStart, chunkSize):
                     pass
                 else:
                     tweet_tags={'hashtags':tags_list}
-		    for i in range(randint(77,145)):
-                    	producer.send('twitter_stream', json.dumps(tweet_tags).encode('utf-8'))
+                    producer.send('twitter_stream', json.dumps(tweet_tags).encode('utf-8'))
             except:
                 empty_tweet+=1
 
