@@ -14,15 +14,10 @@ from functools import partial
 from itertools import combinations
 from kafka import KafkaProducer, KafkaClient
 
-def counts(rdd):
-    num_records=rdd.count()
-    print(num_records)
-
 def group(tags_list):
     tags_list=set(tags_list)
     groups=itertools.combinations(tags_list,2)
     tag_groups=[i for i in groups]
-    #print(tag_groups)
     return tag_groups
 
 def send_to_kafka(val,topic):
@@ -34,22 +29,11 @@ def save_results(time, rdd):
     num_of_record = rdd.count()
     if num_of_record == 0:
         return
-    time=time
-    
-
-    trending= rdd.take(10)
-    for elements in trending:
-        print(elements)
-
     for hash_frequency in rdd.take(10):
-        #hash_grp=str(hash_frequency[0][0])+ ", "+str(hash_frequency[0][1])
         count=hash_frequency[1]
         hash1=hash_frequency[0][0]
         hash2=hash_frequency[0][1]
         session.execute(to_cassandra,(time, hash1,hash2,count))
-    max_time=session.execute("SELECT MAX(time) FROM TWORK.tweet")
-    maxitm=max_time[0][0]
-    print('max=',maxitm)
     
 def re_order(x,y):
     x=x.lower()
@@ -88,7 +72,7 @@ session.execute(create_table)
 #Preapare Creating Insert Statement
 to_cassandra = session.prepare("INSERT INTO TWORK.tweet(time,hash1,hash2,count) VALUES (?,?,?,?)USING TTL 7776000")
 
-# InitialcountoDEtex
+#Initialize SparkContext
 sc = SparkContext(appName="TrendingHashTags")
 ssc = StreamingContext(sc, 1)
 sc.setLogLevel('ERROR')
@@ -96,30 +80,38 @@ sc.setLogLevel('ERROR')
 # get stream data from kafka
 kafkaStream = KafkaUtils.createDirectStream(ssc, [topics], {"metadata.broker.list": brokers})
 tweet_parsed = kafkaStream.map(lambda v: json.loads(v[1].decode('utf-8'))) \
-.map(lambda v: v['hashtags'])#.cache()
-#tweet_parsed.pprint()
+.map(lambda v: v['hashtags'])
+
+#Count the number of messages in the current Batch
 count=tweet_parsed.count()
-count.pprint()
 
 #batch_count topic for total number of tweets in a batch
 count.foreachRDD(lambda x: send_to_kafka(x.collect(),"batch_count"))
-tweet_tag_groups=tweet_parsed.map(lambda x: group(x))#.cache()
-tweet_only_tags=tweet_tag_groups.filter(lambda x: x<> [] and x<> None)#.cache()
+
+# Group the hashtags
+tweet_tag_groups=tweet_parsed.map(lambda x: group(x))
+tweet_only_tags=tweet_tag_groups.filter(lambda x: x<> [] and x<> None)
+
+#Reorder and Flatten the RDD
 hash_tags_as_flat_map=tweet_only_tags.flatMap(lambda x:x) \
 .map(lambda (x,y):re_order(x,y)) \
-.map(lambda (x,y): ((x,y),1))#.cache()
+.map(lambda (x,y): ((x,y),1))
 
-aggregated_hashtags=hash_tags_as_flat_map.reduceByKey(lambda x,y:int(x)+int(y))#.cache()#.map(lambda (x,y):(y,x)).cache()
+#Aggregate and Count the hash_tags
+aggregated_hashtags=hash_tags_as_flat_map.reduceByKey(lambda x,y:int(x)+int(y))
 
-#Sort the Aggregrated groups
+#Sort the Aggregrated groups according to Count
 sorted_groups=aggregated_hashtags.transform \
 (lambda rdd:rdd.sortBy(lambda x: x[1],ascending= False))
 
-#To kafka
+#Send the results back to Central Kafka Broker
 producer = KafkaProducer(bootstrap_servers='Your Kafka Node Public DNS')
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.collect(),"groups_count"))
-#trending_tags_pair topic for sending trending tags only
+# Topic trending_tags_pair  for sending trending tags only
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.take(5),"trending_tags_pair"))
+
+# Push data to Cassandra
 sorted_groups.foreachRDD(save_results)
+
 ssc.start()
 ssc.awaitTermination()
