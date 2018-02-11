@@ -29,7 +29,7 @@ def save_results(time, rdd):
     num_of_record = rdd.count()
     if num_of_record == 0:
         return
-    for hash_frequency in rdd.take(10):
+    for hash_frequency in rdd.collect():
         count=hash_frequency[1]
         hash1=hash_frequency[0][0]
         hash2=hash_frequency[0][1]
@@ -107,6 +107,7 @@ sorted_groups=aggregated_hashtags.transform \
 #Send the results back to Central Kafka Broker
 producer = KafkaProducer(bootstrap_servers='Your Kafka Node Public DNS')
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.collect(),"groups_count"))
+
 # Topic trending_tags_pair  for sending trending tags only
 sorted_groups.foreachRDD(lambda x: send_to_kafka(x.take(5),"trending_tags_pair"))
 
