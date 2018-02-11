@@ -5,4 +5,7 @@ This project is my Insight Data Engineering Project. This project was done in 3 
 ![alt text](https://github.com/amararyal/Co-Tags/blob/master/pipeline.png)
 
 # Dependencies
-Pegasus https://github.com/InsightDataScience/pegasus
+1. Pegasus https://github.com/InsightDataScience/pegasus
+
+# Slide Deck
+https://docs.google.com/presentation/d/1QnMUMBiXwcJ5Vc-56sa7tVfHLC-AxOxnLebgaJyxkxY/edit#slide=id.p3
