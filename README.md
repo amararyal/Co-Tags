@@ -1,4 +1,4 @@
 # Co-Tags
 This project is my Insight Data Engineering Project. This project was done in 3 weeks. The project builds a distributed streaming Pipeline on AWS that processes the stream of twitter messages to find the co-occurring twitter hashtags for any hashtag in a given time duration. In addition, the project computes the trending twitter hash-tags in real-time.
 #Pipeline
-![alt text](http://Co-Tags/Amardemo2018.pptx.jpg)
+![alt text](https://github.com/amararyal/Co-Tags/blob/master/Amardemo2018.pptx.jpg)
