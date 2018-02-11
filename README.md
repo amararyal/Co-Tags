@@ -3,3 +3,6 @@ This project is my Insight Data Engineering Project. This project was done in 3 
 
 # Pipeline
 ![alt text](https://github.com/amararyal/Co-Tags/blob/master/pipeline.png)
+
+# Dependencies
+Pegasus https://github.com/InsightDataScience/pegasus
