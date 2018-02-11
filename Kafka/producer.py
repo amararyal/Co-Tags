@@ -22,7 +22,6 @@ def process_wrapper(chunkStart, chunkSize):
             loaded_json = json.loads(line)
             tags_list=[]
             hash_tags=loaded_json['entities']['hashtags']
-	   # print(hash_tags)
             try:
                 for ele in hash_tags:
 		    if re.match("^[A-Za-z0-9_-]*$", ele['text']):
