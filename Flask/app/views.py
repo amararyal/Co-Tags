@@ -57,7 +57,6 @@ def email_post():
         val={'hash2':ele[0],'count':ele[1]}
         taglist.append(val)
     sortedList=sorted(taglist,key=lambda x:x['count'],reverse=True)
-    print(sortedList)
     return render_template("search.html", output=sortedList)
 
 
