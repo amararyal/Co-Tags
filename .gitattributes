@@ -1,2 +1,3 @@
-Flask/app/static/* linguist-vendored
+* linguist-vendored
+Flask/app/static/* linguist-vendored=false
 
