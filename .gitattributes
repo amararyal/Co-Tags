@@ -1,7 +1,2 @@
-Flask/app/static/* linguist-vendored
-* linguist-vendored
-*.js linguist-vendored=false
-* linguist-vendored
-*.html linguist-vendored=false
-* linguist-vendored
-*.css linguist-vendored=false
+Flask/app/static/* linguist-vendored=false
+
