@@ -3,8 +3,6 @@ This project is my Insight Data Engineering Project. This project was done in 3 
 
 Slide Deck  [link](https://docs.google.com/presentation/d/1QnMUMBiXwcJ5Vc-56sa7tVfHLC-AxOxnLebgaJyxkxY/edit#slide=id.p3) 
 
-Live Demo  [link](http://cotweets.club)
-
 Video  [link](https://www.youtube.com/watch?v=qxcinhmv_XM) 
 
 # Pipeline
